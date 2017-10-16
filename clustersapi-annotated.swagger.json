@@ -1,0 +1,1287 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Clusters API Specification",
+	"title": "clustersapi.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v3/clusters": {
+      "get": {
+	    "summary": "List All Clusters",
+        "description": "Use this endpoint to return a list of all clusters.",
+		"operationId": "ListClusters",
+        "responses": {
+          "200": {
+            "description": "List of clusters.",
+            "schema": {
+              "$ref": "#/definitions/clustersapiListResponse"
+            }
+          }
+        },
+        "tags": [
+          "Manage Clusters"
+        ]
+      }
+    },
+    "/api/v3/clusters/version": {
+      "get": {
+	    "summary": "Get API version",
+	    "description": "Use this endpoint to get the version of the API.",
+		"operationId": "GetVersion",
+        "responses": {
+          "200": {
+            "description": "API version information.",
+            "schema": {
+              "$ref": "#/definitions/clustersapiVersion"
+            }
+          }
+        },
+        "tags": [
+          "Manage Clusters"
+        ]
+      }
+    },
+    "/api/v3/clusters/{ownerId}": {
+      "get": {
+	    "summary": "List Clusters By Organization",
+        "description": "Use this endpoint to return a list of clusters for a given organization.",
+		"operationId": "ListClustersForOwner",
+        "responses": {
+          "200": {
+            "description": "List of cluster objects for the organization specified by ownerId.",
+            "schema": {
+              "$ref": "#/definitions/clustersapiListResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ownerId",
+            "in": "path",
+			"description": "Wercker organization id.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Manage Clusters"
+        ]
+      },
+      "post": {
+	    "summary": "Create a Cluster",
+        "description": "Use this endpoint to create a cluster for a given organization.",
+		"operationId": "Create",
+        "responses": {
+          "200": {
+            "description": "Response to cluster creation.",
+            "schema": {
+              "$ref": "#/definitions/clustersapiCreateResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ownerId",
+            "in": "path",
+			"description": "Wercker organization id.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+			"description": "Body parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/clustersapiCreateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Manage Clusters"
+        ]
+      }
+    },
+    "/api/v3/clusters/{ownerId}/authConfigs": {
+      "get": {
+	    "summary": "List Credential Sets",
+	    "description": "Use this endpoint to list the named credential sets available to a given organization.",
+		"operationId": "ListAuthConfigs",
+        "responses": {
+          "200": {
+            "description": "List of named credential sets (authConfig objects).",
+            "schema": {
+              "$ref": "#/definitions/clustersapiListAuthConfigsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ownerId",
+            "in": "path",
+			"description": "Wercker organization id.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Manage Clusters"
+        ]
+      },
+      "post": {
+	    "summary": "Create a Credential Set",
+	    "description": "Use this endpoint to create a named credential set for a given organization.",
+		"operationId": "CreateAuthConfig",
+        "responses": {
+          "200": {
+            "description": "A named credential set (authConfig object) without secrets.",
+            "schema": {
+              "$ref": "#/definitions/clustersapiAuthConfigInfo"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ownerId",
+            "in": "path",
+			"description": "Wercker organization id.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+			"description": "Body parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/clustersapiCreateAuthConfigRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Manage Clusters"
+        ]
+      }
+    },
+    "/api/v3/clusters/{ownerId}/authConfigs/{id}": {
+      "get": {
+	    "summary": "Get Credential Set Details",
+	    "description": "Use this endpoint to get details of a named credential set for a given organization.",
+		"operationId": "GetAuthConfig",
+        "responses": {
+          "200": {
+            "description": "Named credential set (authConfig object) details.",
+            "schema": {
+              "$ref": "#/definitions/clustersapiAuthConfigInfo"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ownerId",
+            "in": "path",
+			"description": "Wercker organization id.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+			"description": "Parameter description.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Manage Clusters"
+        ]
+      },
+      "delete": {
+	    "summary": "Delete a Credential Set",
+	    "description": "Use this endpoint to delete a named credential set for a given organization.",
+	    "operationId": "DeleteAuthConfig",
+        "responses": {
+          "200": {
+            "description": "Empty response body indicating successful deletion.",
+            "schema": {
+              "$ref": "#/definitions/protobufEmpty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ownerId",
+            "in": "path",
+			"description": "Wercker organization id.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+			"description": "Parameter description.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Manage Clusters"
+        ]
+      }
+    },
+    "/api/v3/clusters/{ownerId}/k8sVersions": {
+      "post": {
+	    "summary": "Get Available Kubernetes Versions",
+	    "description": "Use this endpoint to get a list of the Kubernetes versions available for a given organization's clusters.",
+        "operationId": "GetK8SVersions",
+        "responses": {
+          "200": {
+            "description": "List of supported Kubernetes versions.",
+            "schema": {
+              "$ref": "#/definitions/clustersapiGetK8SVersionsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ownerId",
+            "in": "path",
+			"description": "Wercker organization id.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+			"description": "Body parameters.",			
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/clustersapiGetK8SVersionsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Manage Clusters"
+        ]
+      }
+    },
+    "/api/v3/clusters/{ownerId}/node/images": {
+      "post": {
+	    "summary": "Get Available Node Images",
+	    "description": "Use this endpoint to get a list of the images available for a given organization's nodes.",
+        "operationId": "GetNodeImages",
+        "responses": {
+          "200": {
+            "description": "List of supported OS images.",
+            "schema": {
+              "$ref": "#/definitions/clustersapiGetNodeImagesResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ownerId",
+            "in": "path",
+			"description": "Wercker organization id.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+			"description": "Body parameters.",		
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/clustersapiGetNodeImagesRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Manage Clusters"
+        ]
+      }
+    },
+    "/api/v3/clusters/{ownerId}/node/shapes": {
+      "post": {
+	    "summary": "Get Available Node Shapes",
+	    "description": "Use this endpoint to get a list of the shapes available for a given organization's nodes.",
+        "operationId": "GetNodeShapes",
+        "responses": {
+          "200": {
+            "description": "List of supported VM shapes.",
+            "schema": {
+              "$ref": "#/definitions/clustersapiGetNodeShapesResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ownerId",
+            "in": "path",
+			"description": "Wercker organization id.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+			"description": "Body parameters.",		
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/clustersapiGetNodeShapesRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Manage Clusters"
+        ]
+      }
+    },
+    "/api/v3/clusters/{ownerId}/region": {
+      "post": {
+	    "summary": "Get Available Regions",
+	    "description": "Use this endpoint to get a list of the regions available for a given organization's clusters.",
+ 	    "operationId": "GetRegion",
+        "responses": {
+          "200": {
+            "description": "The region for this cloudAuthId.",
+            "schema": {
+              "$ref": "#/definitions/clustersapiGetRegionResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ownerId",
+            "in": "path",
+			"description": "Wercker organization id.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+			"description": "Body parameters.",			
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/clustersapiGetRegionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Manage Clusters"
+        ]
+      }
+    },
+    "/api/v3/clusters/{ownerId}/workItems/{workItemId}": {
+      "get": {
+	    "summary": "List Work Item Details",
+	    "description": "Use this endpoint to show details of an operation (for example, a cluster creation operation) for a given organization.",
+		"operationId": "GetWorkItem",
+        "responses": {
+          "200": {
+            "description": "Details of operation specified by workItemId.",
+            "schema": {
+              "$ref": "#/definitions/clustersapiGetWorkItemResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ownerId",
+            "in": "path",
+			"description": "Wercker organization id.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "workItemId",
+            "in": "path",
+			"description": "Parameter description.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Manage Clusters"
+        ]
+      }
+    },
+    "/api/v3/clusters/{ownerId}/{clusterId}": {
+      "get": {
+	    "summary": "List Details of a Specific Cluster",
+	    "description": "Use this endpoint to show details of specific cluster for a given organization.",
+		"operationId": "GetCluster",
+        "responses": {
+          "200": {
+            "description": "Details of cluster specified by clusterId.",
+            "schema": {
+              "$ref": "#/definitions/clustersapiClusterDetails"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ownerId",
+            "in": "path",
+			"description": "Wercker organization id.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "clusterId",
+            "in": "path",
+			"description": "Parameter description.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Manage Clusters"
+        ]
+      },
+      "delete": {
+	    "summary": "Delete a Cluster",
+	    "description": "Use this endpoint to delete a specific cluster for a given organization.",
+		"operationId": "DeleteCluster",
+        "responses": {
+          "200": {
+            "description": "ID of the cluster deletion operation.",
+            "schema": {
+              "$ref": "#/definitions/clustersapiDeleteClusterResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ownerId",
+            "in": "path",
+			"description": "Wercker organization id.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "clusterId",
+            "in": "path",
+			"description": "Parameter description.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Manage Clusters"
+        ]
+      }
+    },
+    "/api/v3/clusters/{ownerId}/{clusterId}/pools": {
+      "put": {
+	    "summary": "Update Pools in a Cluster",
+	    "description": "Use this endpoint to update the node pools in a given cluster.",
+		"operationId": "UpdatePools",
+        "responses": {
+          "200": {
+            "description": "Cluster pools.",
+            "schema": {
+              "$ref": "#/definitions/clustersapiUpdatePoolsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ownerId",
+            "in": "path",
+			"description": "Wercker organization id.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "clusterId",
+            "in": "path",
+			"description": "Parameter description.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+			"description": "Body parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/clustersapiUpdatePoolsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Manage Clusters"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "clustersapiAd": {
+      "type": "object",
+      "properties": {
+        "id": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "subnet": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        }
+      }
+    },
+    "clustersapiAuthConfigBmc": {
+	  "description" : "Schema description.",
+	  "type": "object",
+      "properties": {
+        "user": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "fingerprint": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "privateKey": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "tenancy": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "region": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        }
+      }
+    },
+    "clustersapiAuthConfigInfo": {
+	  "description" : "Schema description.",
+      "type": "object",
+      "properties": {
+        "id": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "name": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "tenantId": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "cloudType": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "resourceOwnerId": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        }
+      }
+    },
+    "clustersapiBmcCloudDetails": {
+	  "description" : "Schema description.",
+      "type": "object",
+      "properties": {
+        "nodeId": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "lbType": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "lbShape": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        }
+      }
+    },
+    "clustersapiBmcClusterConfig": {
+	  "description" : "Schema description.",
+      "type": "object",
+      "properties": {
+        "region": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "compartment": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "vcnId": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "sshPublicKey": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "pools": {
+	      "description" : "Array description.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/clustersapiPool"
+          }
+        }
+      }
+    },
+    "clustersapiCloudDetails": {
+	  "description" : "Schema description.",
+      "type": "object",
+      "properties": {
+        "bmc": {
+          "$ref": "#/definitions/clustersapiBmcCloudDetails"
+        }
+      }
+    },
+    "clustersapiCluster": {
+	  "description" : "Schema description.",
+      "type": "object",
+      "properties": {
+        "id": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "name": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "tenantId": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "metadata": {
+	      "description" : "Parameter description.",
+          "$ref": "#/definitions/clustersapiMetadata"
+        },
+        "cloudType": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "authConfigId": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "mastersState": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "nodesState": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "stateDetails": {
+          "$ref": "#/definitions/clustersapiStateDetails"
+        },
+        "desiredState": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "endpoints": {
+          "$ref": "#/definitions/clustersapiEndpoints"
+        },
+        "cloudDetails": {
+          "$ref": "#/definitions/clustersapiCloudDetails"
+        },
+        "resourceOwnerId": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "bmcClusterConfig": {
+          "$ref": "#/definitions/clustersapiBmcClusterConfig"
+        },
+        "k8Version": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "errorMessage": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "ownerName": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        }
+      }
+    },
+    "clustersapiClusterDetails": {
+	  "description" : "Schema description.",
+      "type": "object",
+      "properties": {
+        "k8": {
+          "$ref": "#/definitions/clustersapiCluster"
+        },
+        "workers": {
+	      "description" : "Array description.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/clustersapiWorkerDetails"
+          }
+        }
+      }
+    },
+    "clustersapiCreateAuthConfigRequest": {
+	  "description" : "Schema description.",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "name": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "bmc": {
+          "$ref": "#/definitions/clustersapiAuthConfigBmc"
+        }
+      }
+    },
+    "clustersapiCreateRequest": {
+	  "description" : "Schema description.",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "name": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "tenantId": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "cloudType": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "cloudAuthId": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "lbType": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "werckerId": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "bmcClusterConfig": {
+          "$ref": "#/definitions/clustersapiBmcClusterConfig"
+        },
+        "k8Version": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        }
+      }
+    },
+    "clustersapiCreateResponse": {
+	  "description" : "Schema description.",
+      "type": "object",
+      "properties": {
+        "workItemId": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "k8InstanceId": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        }
+      }
+    },
+    "clustersapiDeleteClusterResponse": {
+	  "description" : "Schema description.",
+      "type": "object",
+      "properties": {
+        "workItemId": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        }
+      }
+    },
+    "clustersapiEndpoints": {
+	  "description" : "Schema description.",
+      "type": "object",
+      "properties": {
+        "etcd": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "tenantAgent": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "k8": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        }
+      }
+    },
+    "clustersapiGetK8SVersionsRequest": {
+	  "description" : "Schema description.",
+  	  "type": "object",
+      "properties": {
+        "ownerId": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "cloudAuthId": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        }
+      }
+    },
+    "clustersapiGetK8SVersionsResponse": {
+	  "description" : "Schema description.",
+      "type": "object",
+      "properties": {
+        "masters": {
+	      "description" : "Array description.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "nodes": {
+	      "description" : "Array description.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "clustersapiGetKubeconfigResponse": {
+	  "description" : "Schema description.",
+      "type": "object",
+      "properties": {
+        "kubeconfig": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        }
+      }
+    },
+    "clustersapiGetNodeImagesRequest": {
+	  "description" : "Schema description.",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+	      "description" : "Parameter description.",		
+          "type": "string"
+        },
+        "cloudAuthId": {
+	      "description" : "Parameter description.",		
+          "type": "string"
+        }
+      }
+    },
+    "clustersapiGetNodeImagesResponse": {
+	  "description" : "Schema description.",
+	  "type": "object",
+      "properties": {
+        "names": {
+	      "description" : "Array description.",		
+          "type": "array",
+          "items": {
+	        "description" : "Item description.",		  
+            "type": "string"
+          }
+        }
+      }
+    },
+    "clustersapiGetNodeShapesRequest": {
+	  "description" : "Schema description.",
+	  "type": "object",
+      "properties": {
+        "ownerId": {
+	      "description" : "Parameter description.",		
+          "type": "string"
+        },
+        "cloudAuthId": {
+	      "description" : "Parameter description.",		
+          "type": "string"
+        }
+      }
+    },
+    "clustersapiGetNodeShapesResponse": {
+	  "description" : "Schema description.",
+	  "type": "object",
+      "properties": {
+        "BareMetal": {
+	      "description" : "Array description.",		
+          "type": "array",
+          "items": {
+	        "description" : "Item description.",		  
+            "type": "string"
+          }
+        }
+      }
+    },
+    "clustersapiGetRegionRequest": {
+	  "description" : "Schema description.",	
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string"
+        },
+        "cloudAuthId": {
+          "type": "string"
+        }
+      }
+    },
+    "clustersapiGetRegionResponse": {
+	  "description" : "Schema description.",	
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "clustersapiGetWorkItemResponse": {
+	  "description" : "Schema description.",
+      "type": "object",
+      "properties": {
+        "tenantId": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "clusterId": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "id": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "type": {
+	      "description" : "Parameter description.",
+          "type": "integer",
+          "format": "int32"
+        },
+        "responseError": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "status": {
+	      "description" : "Parameter description.",
+          "type": "integer",
+          "format": "int32"
+        },
+        "statusString": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "createdAt": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "startedAt": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "closedAt": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "lockedUntil": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "tmId": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "resourceOwnerId": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "activity": {
+	      "description" : "Array description.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "clustersapiListAuthConfigsResponse": {
+	  "description" : "Schema description.",
+      "type": "object",
+      "properties": {
+        "authConfigs": {
+	      "description" : "Array description.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/clustersapiAuthConfigInfo"
+          }
+        }
+      }
+    },
+    "clustersapiListResponse": {
+	  "description" : "Schema description.",
+      "type": "object",
+      "properties": {
+        "clusters": {
+	      "description" : "Array description.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/clustersapiCluster"
+          }
+        }
+      }
+    },
+    "clustersapiMetadata": {
+	  "description" : "Schema description.",
+      "type": "object",
+      "properties": {
+        "createdAt": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "createdBy": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "createdByWorkItem": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "deletedAt": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "deletedBy": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "deletedByWorkItem": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        }
+      }
+    },
+    "clustersapiPool": {
+      "type": "object",
+      "properties": {
+        "name": {
+		  "description" : "Parameter description.",
+          "type": "string"
+        },
+        "shape": {
+		  "description" : "Parameter description.",
+          "type": "string"
+        },
+        "imageId": {
+		  "description" : "Parameter description.",
+          "type": "string"
+        },
+        "imageName": {
+		  "description" : "Parameter description.",
+          "type": "string"
+        },
+        "workersPerAD": {
+		  "description" : "Parameter description.",
+          "type": "integer",
+          "format": "int32"
+        },
+        "k8Version": {
+		  "description" : "Parameter description.",
+          "type": "string"
+        },
+        "ads": {
+		  "description" : "Parameter description.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/clustersapiAd"
+          }
+        }
+      }
+    },
+    "clustersapiRollup": {
+	  "description" : "Schema description.",
+      "type": "object",
+      "properties": {
+        "provisioning": {
+	      "description" : "Parameter description.",
+          "type": "integer",
+          "format": "int32"
+        },
+        "running": {
+          "type": "integer",
+          "format": "int32"
+		  }
+      }
+    },
+    "clustersapiStateDetails": {
+	  "description" : "Schema description.",
+      "type": "object",
+      "properties": {
+        "nodesRollup": {
+          "$ref": "#/definitions/clustersapiRollup"
+        }
+      }
+    },
+    "clustersapiUpdatePoolsRequest": {
+	  "description" : "Schema description.",
+      "type": "object",
+      "properties": {
+        "ownerId": {
+	      "description" : "Parameter description.",
+	      "type": "string"
+        },
+        "clusterId": {
+	      "description" : "Parameter description.",
+	      "type": "string"
+        },
+        "pools": {
+	      "description" : "Parameter description.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/clustersapiPool"
+          }
+        }
+      }
+    },
+    "clustersapiUpdatePoolsResponse": {
+	  "description" : "Schema description.",
+      "type": "object",
+      "properties": {
+        "workItemId": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        }
+      }
+    },
+    "clustersapiVersion": {
+	  "description" : "Schema description.",
+      "type": "object",
+      "properties": {
+        "gitCommit": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "version": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "release": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "buildHost": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "buildDate": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "buildBranch": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        }
+      }
+    },
+    "clustersapiWorkerDetails": {
+	  "description" : "Schema description.",
+      "type": "object",
+      "properties": {
+        "availabilityDomain": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "bmcLifecycleState": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "compartmentId": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "error": {
+	      "description" : "Parameter description.",
+          "$ref": "#/definitions/clustersapiWorkerErrors"
+        },
+        "id": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "imageId": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "k8Version": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "name": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "pool": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "publicIp": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "region": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "shape": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "slot": {
+	      "description" : "Parameter description.",
+          "type": "integer",
+          "format": "int32"
+        },
+        "subnetId": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        },
+        "workerStatus": {
+	      "description" : "Parameter description.",
+          "type": "string"
+        }
+      }
+    },
+    "clustersapiWorkerErrors": {
+	  "description" : "Schema description.",
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "protobufEmpty": {
+      "type": "object",
+      "description": "service Foo {\n      rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);\n    }\n\nThe JSON representation for `Empty` is empty JSON object `{}`.",
+      "title": "A generic empty message that you can re-use to avoid defining duplicated\nempty messages in your APIs. A typical example is to use it as the request\nor the response type of an API method. For instance:"
+    }
+  }
+}
